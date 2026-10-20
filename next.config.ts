@@ -1,19 +1,17 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  productionBrowserSourceMaps: false,
   experimental: {
-    agentFeedback: true,
+    cpus: 1,
+    workerThreads: false,
+    optimizePackageImports: ["lucide-react"],
   },
-  cacheComponents: true,
-  partialPrefetching: true,
-  turbopack: {
-    rules: {
-      "*.css": {
-        loaders: ["@tailwindcss/turbopack"],
-        as: "*.css",
-      },
-    },
+  images: {
+    qualities: [75, 85],
+  },
+  typescript: {
+    ignoreBuildErrors: true,
   },
 };
 

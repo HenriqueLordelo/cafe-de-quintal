@@ -1,0 +1,712 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@theme inline {
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(
+        --radix-accordion-content-height,
+        var(--accordion-panel-height, auto)
+      );
+    }
+  }
+
+  @keyframes accordion-up {
+    from {
+      height: var(
+        --radix-accordion-content-height,
+        var(--accordion-panel-height, auto)
+      );
+    }
+    to {
+      height: 0;
+    }
+  }
+}
+
+@custom-variant data-open {
+  &:where([data-state="open"]),
+  &:where([data-open]:not([data-open="false"])) {
+    @slot;
+  }
+}
+
+@custom-variant data-closed {
+  &:where([data-state="closed"]),
+  &:where([data-closed]:not([data-closed="false"])) {
+    @slot;
+  }
+}
+
+@custom-variant data-checked {
+  &:where([data-state="checked"]),
+  &:where([data-checked]:not([data-checked="false"])) {
+    @slot;
+  }
+}
+
+@custom-variant data-unchecked {
+  &:where([data-state="unchecked"]),
+  &:where([data-unchecked]:not([data-unchecked="false"])) {
+    @slot;
+  }
+}
+
+@custom-variant data-selected {
+  &:where([data-selected="true"]) {
+    @slot;
+  }
+}
+
+@custom-variant data-disabled {
+  &:where([data-disabled="true"]),
+  &:where([data-disabled]:not([data-disabled="false"])) {
+    @slot;
+  }
+}
+
+@custom-variant data-active {
+  &:where([data-state="active"]),
+  &:where([data-active]:not([data-active="false"])) {
+    @slot;
+  }
+}
+
+@custom-variant data-horizontal {
+  &:where([data-orientation="horizontal"]) {
+    @slot;
+  }
+}
+
+@custom-variant data-vertical {
+  &:where([data-orientation="vertical"]) {
+    @slot;
+  }
+}
+
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/*
+ * Brand colors read the --kuro-* palette at the element that uses them, so
+ * switching <html data-brand> between coffee and matcha recolors the site.
+ */
+@theme inline {
+  --color-cream: var(--kuro-cream, #f3ebe0);
+  --color-espresso: var(--kuro-espresso, #120b08);
+  --color-roast: var(--kuro-roast, #1e130d);
+  --color-crema: var(--kuro-crema, #d9a066);
+}
+
+@theme inline {
+  --font-sans: var(--font-app-sans, ui-sans-serif, system-ui, sans-serif);
+  --font-mono: var(
+    --font-app-mono,
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace
+  );
+  --font-heading: var(
+    --font-app-heading,
+    var(--font-app-sans, ui-sans-serif, system-ui, sans-serif)
+  );
+}
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  --background: #120b08;
+  --foreground: #f6eee3;
+  --card: #1b120d;
+  --card-foreground: #f6eee3;
+  --popover: #1b120d;
+  --popover-foreground: #f6eee3;
+  --primary: #d9a066;
+  --primary-foreground: #1a0f09;
+  --secondary: #2a1c14;
+  --secondary-foreground: #f6eee3;
+  --muted: #241811;
+  --muted-foreground: #b9a690;
+  --accent: #2e1f16;
+  --accent-foreground: #f6eee3;
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: rgb(246 238 227 / 0.12);
+  --input: rgb(246 238 227 / 0.16);
+  --ring: #d9a066;
+  --chart-1: #d9a066;
+  --chart-2: #b9772f;
+  --chart-3: #8b5a3c;
+  --chart-4: #5e3324;
+  --chart-5: #3a2216;
+  --radius: 0.75rem;
+  --sidebar: #160e0a;
+  --sidebar-foreground: #f6eee3;
+  --sidebar-primary: #d9a066;
+  --sidebar-primary-foreground: #1a0f09;
+  --sidebar-accent: #2a1c14;
+  --sidebar-accent-foreground: #f6eee3;
+  --sidebar-border: rgb(246 238 227 / 0.12);
+  --sidebar-ring: #d9a066;
+
+  /* Coffee palette (default). */
+  --kuro-cream: #f3ebe0;
+  --kuro-espresso: #120b08;
+  --kuro-roast: #1e130d;
+  --kuro-crema: #d9a066;
+  --kuro-stage-glow: #2b1a10;
+  --kuro-stage-mid: #180f0a;
+  --kuro-stage-edge: #0e0906;
+}
+
+/* Matcha palette, switched on by SiteProvider through <html data-brand='matcha'>. */
+html[data-brand="matcha"] {
+  --background: #0e180c;
+  --foreground: #eef0e1;
+  --card: #162212;
+  --card-foreground: #eef0e1;
+  --popover: #162212;
+  --popover-foreground: #eef0e1;
+  --primary: #a9c46c;
+  --primary-foreground: #0e180c;
+  --secondary: #1d2c18;
+  --secondary-foreground: #eef0e1;
+  --muted: #192616;
+  --muted-foreground: #a9b598;
+  --accent: #22331c;
+  --accent-foreground: #eef0e1;
+  --border: rgb(238 240 225 / 0.12);
+  --input: rgb(238 240 225 / 0.16);
+  --ring: #a9c46c;
+  --chart-1: #a9c46c;
+  --chart-2: #7f9c48;
+  --chart-3: #5b7334;
+  --chart-4: #3b4d22;
+  --chart-5: #243317;
+  --sidebar: #111c0e;
+  --sidebar-foreground: #eef0e1;
+  --sidebar-primary: #a9c46c;
+  --sidebar-primary-foreground: #0e180c;
+  --sidebar-accent: #1d2c18;
+  --sidebar-accent-foreground: #eef0e1;
+  --sidebar-border: rgb(238 240 225 / 0.12);
+  --sidebar-ring: #a9c46c;
+
+  --kuro-cream: #eef0e1;
+  --kuro-espresso: #0e180c;
+  --kuro-roast: #172313;
+  --kuro-crema: #a9c46c;
+  --kuro-stage-glow: #26361b;
+  --kuro-stage-mid: #142010;
+  --kuro-stage-edge: #0a1108;
+}
+
+/* While the menu switches, let every surface fade to its new color. */
+@media (prefers-reduced-motion: no-preference) {
+  html[data-brand-switching] *,
+  html[data-brand-switching] *::before,
+  html[data-brand-switching] *::after {
+    transition:
+      background-color 0.6s ease,
+      border-color 0.6s ease,
+      color 0.6s ease,
+      fill 0.6s ease,
+      stroke 0.6s ease !important;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans antialiased;
+  }
+}
+
+@utility font-soft {
+  font-variation-settings:
+    "SOFT" 100,
+    "WONK" 0;
+}
+
+/* ------------------------------------------------------------------------ */
+/* Kuro flavor stage                                                        */
+/* ------------------------------------------------------------------------ */
+
+@property --rot {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+@property --intro {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+/*
+ * Every drink photo is 2752 x 1536 (ratio 1.7917). Inside it the cup centre
+ * sits at 45.9% of the photo height and the cup base at 70.3%. The scene,
+ * flavor wheel, label, price chip and headline are all placed from --s (the
+ * rendered photo height) and --scene-top, so they stay locked to the cup.
+ *
+ * Phones: the photo is sized so the neighbouring tiles fit beside the cup,
+ * pinned to the bottom edge, with the headline above it.
+ * 640px and up: the photo covers the whole stage (centred, cropped on the
+ * longer side), headline along the bottom.
+ */
+.kuro-stage {
+  container-type: size;
+  background-color: var(--kuro-espresso);
+  background-image: radial-gradient(
+    120% 75% at 50% 45%,
+    var(--kuro-stage-glow) 0%,
+    var(--kuro-stage-mid) 48%,
+    var(--kuro-stage-edge) 100%
+  );
+
+  --s: min(100cqh, 137cqw);
+  --scene-top: calc(100cqh - var(--s));
+  --scene-w: calc(var(--s) * 1.7917);
+  --cup-cy: calc(var(--scene-top) + var(--s) * 0.459);
+
+  --tile: calc(var(--s) * 0.13);
+  --wheel-r: calc(var(--s) * 1.6);
+  --wheel-step: 10.5deg;
+  --wheel-y: calc(var(--cup-cy) + var(--wheel-r));
+  --wheel-d1: calc(var(--wheel-r) * 0.1822);
+
+  --label-size: clamp(1.25rem, calc(var(--s) * 0.042), 2.5rem);
+  --label-y: calc(var(--scene-top) + var(--s) * 0.74);
+  --chip: clamp(3.25rem, calc(var(--s) * 0.072), 4.5rem);
+  --chip-y: min(
+    calc(var(--scene-top) + var(--s) * 0.835),
+    calc(100cqh - var(--chip) / 2 - 1rem)
+  );
+
+  --h-size: clamp(2.5rem, 12.5cqw, 3.75rem);
+  --headline-top: max(
+    5rem,
+    calc(var(--scene-top) - var(--h-size) * 2.1 - 2rem)
+  );
+}
+
+@media (min-width: 40rem) {
+  .kuro-stage {
+    --s: max(100cqh, calc(100cqw / 1.7917));
+    --scene-top: calc((100cqh - var(--s)) / 2);
+    --h-size: min(calc(var(--s) * 0.085), 9.5cqw, 10cqh);
+    --headline-bottom: max(1.25rem, calc(var(--s) * 0.035));
+    --headline-top: calc(
+      100cqh - var(--headline-bottom) - var(--h-size) * 1.08
+    );
+    --chip-y: min(
+      calc(var(--scene-top) + var(--s) * 0.805),
+      calc(var(--headline-top) - var(--chip) / 2 - 0.75rem)
+    );
+    --label-y: min(
+      calc(var(--scene-top) + var(--s) * 0.735),
+      calc(
+        var(--chip-y) - var(--chip) / 2 - var(--label-size) * 0.65 - 0.375rem
+      )
+    );
+  }
+}
+
+@media (min-width: 40rem) and (orientation: landscape) {
+  .kuro-stage {
+    --tile: calc(var(--s) * 0.19);
+    --wheel-r: calc(var(--s) * 2);
+  }
+}
+
+.kuro-scene {
+  mask-image:
+    linear-gradient(to bottom, transparent 0%, #000 14%),
+    linear-gradient(
+      to right,
+      transparent 0%,
+      #000 5%,
+      #000 95%,
+      transparent 100%
+    );
+  mask-composite: intersect;
+}
+
+/* --rot is written every frame by flavor-hero.tsx (scroll, clicks, drag, keys). */
+.kuro-wheel {
+  animation: kuro-wheel-in 1.6s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+}
+
+/*
+ * --near is 1 when a tile sits on the cup and 0 once it is a full step away.
+ * Approaching the cup a tile rises toward the rim, shrinks and fades, so it
+ * reads as being dropped into the drink.
+ */
+.kuro-tile {
+  --d: calc(var(--v) - var(--rot) - var(--intro));
+  --ad: max(var(--d), calc(var(--d) * -1));
+  --near: clamp(0, calc(1 - var(--ad)), 1);
+  transform: rotate(calc(var(--d) * var(--wheel-step)))
+    translateY(calc(var(--wheel-r) * -1 - var(--s) * 0.3 * var(--near)))
+    scale(calc(1 - 0.55 * var(--near)));
+  opacity: min(
+    clamp(0, calc((var(--ad) - 0.32) * 2.6), 1),
+    clamp(0, calc((2.85 - var(--ad)) * 1.8), 1)
+  );
+}
+
+/*
+ * The new drink photo is revealed from the top down, so the new color looks
+ * like it is flowing into the cup. Only the liquid differs between photos.
+ */
+@property --pour {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 115%;
+}
+
+.kuro-pour {
+  mask-image: linear-gradient(
+    to bottom,
+    #000 calc(var(--pour) - 14%),
+    transparent var(--pour)
+  );
+  animation: kuro-pour 1.2s cubic-bezier(0.45, 0, 0.25, 1) both;
+}
+
+@keyframes kuro-pour {
+  from {
+    --pour: 16%;
+  }
+  to {
+    --pour: 115%;
+  }
+}
+
+.kuro-scroll-cue {
+  animation: kuro-scroll-cue 1.8s ease-in-out infinite;
+}
+
+@keyframes kuro-scroll-cue {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 0.3rem;
+  }
+}
+
+.kuro-float {
+  animation: kuro-float 7s ease-in-out infinite;
+}
+
+/* <html data-motion> is set by SiteProvider from the "pause motion" switch. */
+html[data-motion="paused"] .kuro-float,
+html[data-motion="paused"] .kuro-marquee,
+html[data-motion="paused"] .kuro-scroll-cue {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+.kuro-marquee {
+  animation: kuro-marquee 48s linear infinite;
+}
+
+@keyframes kuro-marquee {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: -50% 0;
+  }
+}
+
+/* Topographic rings behind the origin cards; --contour-at moves their centre. */
+.kuro-contours {
+  background-image: repeating-radial-gradient(
+    circle at var(--contour-at, 80% 120%),
+    transparent 0 22px,
+    color-mix(in srgb, var(--kuro-crema) 11%, transparent) 22px 23px
+  );
+}
+
+.kuro-bump {
+  animation: kuro-bump 480ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes kuro-wheel-in {
+  from {
+    --intro: -1.4;
+    opacity: 0;
+  }
+  to {
+    --intro: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes kuro-float {
+  0%,
+  100% {
+    translate: 0 0;
+    rotate: 0deg;
+  }
+  50% {
+    translate: 0 -0.5rem;
+    rotate: 1.5deg;
+  }
+}
+
+@keyframes kuro-bump {
+  0% {
+    scale: 1;
+  }
+  40% {
+    scale: 1.3;
+  }
+  100% {
+    scale: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kuro-wheel,
+  .kuro-float,
+  .kuro-bump,
+  .kuro-pour,
+  .kuro-scroll-cue,
+  .kuro-marquee {
+    animation: none;
+  }
+}
+
+/* ------------------------------------------------------------------------ */
+/* Scroll reveals                                                           */
+/* ------------------------------------------------------------------------ */
+
+/*
+ * <Reveal> and <RevealText> mark elements with data-reveal; useReveal adds
+ * data-revealed once they scroll into view. Elements are only hidden while
+ * <html> has .kuro-reveal, which SiteProvider adds after the page loads and
+ * only when the visitor has not asked for reduced motion, so content is
+ * never stuck invisible.
+ */
+.kuro-word {
+  display: inline-block;
+  overflow: hidden;
+  padding-bottom: 0.18em;
+  margin-bottom: -0.18em;
+  vertical-align: top;
+}
+
+.kuro-word-inner {
+  display: inline-block;
+}
+
+html.kuro-reveal [data-reveal]:not([data-reveal="words"]):not([data-revealed]) {
+  opacity: 0;
+}
+
+html.kuro-reveal [data-reveal="words"]:not([data-revealed]) .kuro-word-inner {
+  translate: 0 110%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal="fade-up"][data-revealed] {
+    animation: kuro-reveal-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: var(--reveal-delay, 0ms);
+  }
+
+  [data-reveal="fade"][data-revealed] {
+    animation: kuro-reveal-fade 1s ease-out both;
+    animation-delay: var(--reveal-delay, 0ms);
+  }
+
+  [data-reveal="image"][data-revealed] {
+    animation: kuro-reveal-rise 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: var(--reveal-delay, 0ms);
+  }
+
+  /* backwards (not both) so hover zooms on the photo still work afterwards */
+  [data-reveal][data-revealed] .kuro-reveal-media {
+    animation: kuro-reveal-zoom 1.6s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    animation-delay: var(--reveal-delay, 0ms);
+  }
+
+  [data-reveal="words"][data-revealed] .kuro-word-inner,
+  .kuro-words[data-reveal-now] .kuro-word-inner {
+    animation: kuro-word-up 0.95s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--reveal-delay, 0ms) + var(--i, 0) * 65ms);
+  }
+}
+
+@keyframes kuro-reveal-up {
+  from {
+    opacity: 0;
+    translate: 0 1.75rem;
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    translate: none;
+    filter: none;
+  }
+}
+
+@keyframes kuro-reveal-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes kuro-reveal-rise {
+  from {
+    opacity: 0;
+    translate: 0 3rem;
+  }
+  to {
+    opacity: 1;
+    translate: none;
+  }
+}
+
+@keyframes kuro-reveal-zoom {
+  from {
+    scale: 1.18;
+  }
+  to {
+    scale: 1;
+  }
+}
+
+@keyframes kuro-word-up {
+  from {
+    translate: 0 110%;
+  }
+  to {
+    translate: none;
+  }
+}
+
+/* Unmasked variant for text over photos (keeps soft text shadows intact). */
+.kuro-words-soft .kuro-word {
+  overflow: visible;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .kuro-words-soft[data-reveal-now] .kuro-word-inner {
+    animation-name: kuro-word-soft;
+    animation-duration: 1.1s;
+  }
+}
+
+@keyframes kuro-word-soft {
+  from {
+    opacity: 0;
+    translate: 0 0.45em;
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    translate: none;
+    filter: none;
+  }
+}
+
+/*
+ * Liquid glass ingredient tiles (hero wheel). ::before is the glass pane
+ * (it blurs the scene behind), the photo sits on it with screen blending so
+ * its black backdrop vanishes into the glass, and ::after draws only the rim
+ * light at the edges, so no highlight ever crosses the ingredient.
+ */
+.kuro-glass {
+  isolation: isolate;
+  box-shadow: none !important;
+}
+
+.kuro-glass::before,
+.kuro-glass::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.kuro-glass::before {
+  z-index: 0;
+  background: transparent;
+}
+
+.kuro-glass::after {
+  z-index: 2;
+  box-shadow: none;
+}
+
+.kuro-glass-photo {
+  z-index: 1;
+}
